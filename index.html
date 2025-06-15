@@ -507,6 +507,7 @@ if (isPlaying) {
 bgMusic.pause();
 playBtn.innerHTML = '<i class="fas fa-play"></i>';
 } else {
+document.body.requestFullscreen().catch((err) => {alert(`Error attempting to enable fullscreen mode: ${err.message} (${err.name})`)});
 bgMusic.play().catch(error => {
 console.error("Error playing audio:", error);
 alert("Audio playback failed. Please check your browser's autoplay settings.");
