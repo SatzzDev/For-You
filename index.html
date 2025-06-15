@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You</title>
+<meta author="SatzzDev">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root {
+--primary: #1db954;
+--secondary: #191414;
+--accent: #ffffff;
+--dark-card: #121212;
+--text: #f0f0f0;
+--text-secondary: #b3b3b3;
+}
+
+body {
+background: linear-gradient(135deg, #0a0a0a, #1a1a1a, #0a0a0a);
+min-height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+color: var(--text);
+padding: 20px;
+overflow-x: hidden;
+}
+
+.container {
+width: 100%;
+max-width: 900px;
+background: var(--secondary);
+border-radius: 20px;
+overflow: hidden;
+box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+position: relative;
+z-index: 20;
+}
+
+.header {
+background: linear-gradient(to right, #1a1a1a, #2a2a2a);
+padding: 25px 30px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.logo {
+display: flex;
+align-items: center;
+gap: 12px;
+}
+
+.logo-icon {
+width: 40px;
+height: 40px;
+background: var(--primary);
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 22px;
+color: white;
+}
+
+.logo-text {
+font-size: 26px;
+font-weight: 700;
+letter-spacing: -1px;
+}
+
+.logo-text span {
+color: var(--primary);
+}
+
+.now-playing {
+text-align: right;
+}
+
+.song-title {
+font-size: 18px;
+font-weight: 600;
+color: var(--accent);
+margin-bottom: 5px;
+}
+
+.artist {
+font-size: 14px;
+color: var(--text-secondary);
+}
+
+.lyrics-container {
+height: 500px;
+overflow: hidden;
+position: relative;
+background: linear-gradient(to bottom, #191414, #121212);
+display: flex;
+align-items: center; /* Center vertically */
+}
+
+.lyrics-wrapper {
+width: 100%;
+max-width: 700px;
+text-align: center;
+padding: 30px 20px;
+position: relative;
+z-index: 2;
+margin: 0 auto; /* Center horizontally */
+transition: transform 0.5s ease-in-out; /* Smooth vertical movement */
+transform: translateY(0); /* Initial position */
+}
+
+.lyric-line {
+font-size: 30px;
+font-weight: 600;
+margin: 20px 0;
+color: var(--text-secondary);
+transition: all 0.5s ease-in-out;
+opacity: 0;
+line-height: 1.5;
+min-height: 50px;
+}
+
+.lyric-line.active {
+color: var(--accent);
+opacity: 1;
+}
+
+.controls {
+padding: 25px 30px;
+background: var(--dark-card);
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 25px;
+border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.progress-container {
+width: 100%;
+max-width: 600px;
+display: flex;
+align-items: center;
+gap: 15px;
+}
+
+.time {
+font-size: 14px;
+color: var(--text-secondary);
+min-width: 40px;
+}
+
+.progress-bar {
+flex: 1;
+height: 4px;
+background: rgba(255, 255, 255, 0.1);
+border-radius: 2px;
+position: relative;
+cursor: pointer;
+}
+
+.progress {
+height: 100%;
+width: 0%;
+background: var(--primary);
+border-radius: 2px;
+position: absolute;
+left: 0;
+top: 0;
+transition: width 0.1s linear;
+}
+
+.player-controls {
+display: flex;
+align-items: center;
+gap: 30px;
+}
+
+.control-btn {
+width: 50px;
+height: 50px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+transition: all 0.3s ease;
+color: var(--accent);
+}
+
+.control-btn:hover {
+transform: scale(1.1);
+}
+
+.play-btn {
+width: 70px;
+height: 70px;
+background: var(--primary);
+box-shadow: 0 0 20px rgba(29, 185, 84, 0.5);
+}
+
+.play-btn:hover {
+transform: scale(1.05);
+box-shadow: 0 0 25px rgba(29, 185, 84, 0.8);
+}
+
+.message-overlay {
+position: absolute;
+bottom: 30px;
+left: 50%;
+transform: translateX(-50%);
+background: rgba(25, 20, 20, 0.9);
+border: 1px solid rgba(255, 255, 255, 0.1);
+padding: 20px 30px;
+border-radius: 50px;
+font-size: 18px;
+color: var(--accent);
+opacity: 0;
+transition: opacity 0.5s ease;
+text-align: center;
+max-width: 80%;
+backdrop-filter: blur(5px);
+}
+
+.message-overlay.show {
+opacity: 1;
+}
+
+.particles {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+pointer-events: none;
+z-index: 5;
+}
+
+.particle {
+position: absolute;
+width: 8px;
+height: 8px;
+background: rgba(29, 185, 84, 0.7);
+border-radius: 50%;
+animation: particleFloat 10s linear infinite;
+opacity: 0;
+will-change: transform, opacity;
+}
+
+@keyframes particleFloat {
+0% {
+transform: translateY(0) translateX(0);
+opacity: 0;
+}
+10% {
+opacity: 1;
+}
+90% {
+opacity: 0.8;
+}
+100% {
+transform: translateY(-100vh) translateX(100px);
+opacity: 0;
+}
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+.lyrics-container {
+height: 400px;
+}
+
+.lyric-line {
+font-size: 24px;
+margin: 15px 0;
+}
+
+.header {
+flex-direction: column;
+gap: 15px;
+text-align: center;
+}
+
+.now-playing {
+text-align: center;
+}
+}
+
+@media (max-width: 480px) {
+.lyrics-container {
+height: 350px;
+}
+
+.lyric-line {
+font-size: 20px;
+margin: 12px 0;
+}
+
+.control-btn {
+width: 40px;
+height: 40px;
+}
+
+.play-btn {
+width: 60px;
+height: 60px;
+}
+
+.controls {
+padding: 20px;
+}
+
+.player-controls {
+gap: 20px;
+}
+}
+</style>
+</head>
+<body>
+<div class="particles" id="particles"></div>
+
+<div class="container">
+<div class="header">
+<div class="logo">
+<div class="logo-icon">
+<i class="fas fa-heart"></i>
+</div>
+<div class="logo-text">Feel<span>ings</span></div>
+</div>
+<div class="now-playing">
+<div class="song-title">Angel Baby</div>
+<div class="artist">Synced with your heartbeat</div>
+</div>
+</div>
+
+<div class="lyrics-container">
+<div class="lyrics-wrapper" id="lyricsWrapper"></div>
+<div class="message-overlay" id="messageOverlay">
+Every word is true, and comes straight from my heart
+</div>
+</div>
+
+<div class="controls">
+<div class="progress-container">
+<div class="time" id="currentTime">0:00</div>
+<div class="progress-bar" id="progressBar">
+<div class="progress" id="progress"></div>
+</div>
+<div class="time" id="duration">0:00</div>
+</div>
+
+<div class="player-controls">
+<div class="control-btn" id="prevBtn">
+<i class="fas fa-step-backward"></i>
+</div>
+<div class="control-btn play-btn" id="playBtn">
+<i class="fas fa-play"></i>
+</div>
+<div class="control-btn" id="nextBtn">
+<i class="fas fa-step-forward"></i>
+</div>
+</div>
+</div>
+</div>
+
+<audio id="bgMusic">
+<source src="Angel baby X Angel baby (Tiktok).mp3" type="audio/mp3">
+</audio>
+
+<script>
+// Lyrics data with approximate timing
+const lyrics = [
+{ text: "You came out the blue on a rainy night", time: 0 },
+{ text: "No lie", time: 3 },
+{ text: "I'll tell you how I almost died", time: 5 },
+{ text: "While you're bringing me back to life", time: 8 },
+{ text: "I just wanna live in this moment forever", time: 14 },
+{ text: "'Cause I'm afraid that living couldn't get any better", time: 20 },
+{ text: "Started giving up on the word \"forever\"", time: 27 },
+{ text: "Until you gаve up heaven, so we could be together", time: 34 },
+{ text: "Angel Baby", time: 39 }
+];
+
+// DOM elements
+const lyricsWrapper = document.getElementById('lyricsWrapper');
+const progress = document.getElementById('progress');
+const progressBar = document.getElementById('progressBar');
+const playBtn = document.getElementById('playBtn');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const currentTimeEl = document.getElementById('currentTime');
+const durationEl = document.getElementById('duration');
+const bgMusic = document.getElementById('bgMusic');
+const messageOverlay = document.getElementById('messageOverlay');
+
+// Variables
+let isPlaying = false;
+let currentLyricIndex = 0;
+let lastHighlightedIndex = -1;
+let isDraggingProgress = false;
+
+// Populate lyrics
+lyrics.forEach(lyric => {
+const line = document.createElement('div');
+line.className = 'lyric-line';
+line.textContent = lyric.text;
+line.dataset.time = lyric.time;
+lyricsWrapper.appendChild(line);
+});
+
+const lyricLines = document.querySelectorAll('.lyric-line');
+
+// Format time as mm:ss
+function formatTime(seconds) {
+const min = Math.floor(seconds / 60);
+const sec = Math.floor(seconds % 60);
+return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+}
+
+// Find current lyric index based on time
+function findCurrentLyricIndex(time) {
+for (let i = lyrics.length - 1; i >= 0; i--) {
+if (time >= lyrics[i].time) {
+return i;
+}
+}
+return 0;
+}
+
+// Highlight current lyric with vertical centering
+function highlightLyric(index) {
+if (index === lastHighlightedIndex) return;
+
+// Remove active class from all
+lyricLines.forEach(line => {
+line.classList.remove('active');
+});
+
+// Add active class to current line
+lyricLines[index].classList.add('active');
+
+// Calculate vertical position to center the active line
+const containerHeight = document.querySelector('.lyrics-container').offsetHeight;
+const activeLine = lyricLines[index];
+const activeLineHeight = activeLine.offsetHeight;
+const activeLineTop = activeLine.offsetTop;
+const wrapperHeight = lyricsWrapper.offsetHeight;
+
+// Calculate how much to move the wrapper to center the active line
+const offset = containerHeight / 1 - activeLineTop - activeLineHeight / 1;
+
+// Apply the transformation to center the active line
+lyricsWrapper.style.transform = `translateY(${offset}px)`;
+
+lastHighlightedIndex = index;
+}
+
+// Update progress bar
+function updateProgress() {
+if (isDraggingProgress) return;
+
+const currentTime = bgMusic.currentTime;
+const percent = (currentTime / bgMusic.duration) * 100;
+progress.style.width = `${percent}%`;
+currentTimeEl.textContent = formatTime(currentTime);
+
+// Update current lyric
+currentLyricIndex = findCurrentLyricIndex(currentTime);
+highlightLyric(currentLyricIndex);
+}
+
+// Set progress bar position
+function setProgress(e) {
+const width = this.clientWidth;
+const clickX = e.offsetX;
+const duration = bgMusic.duration;
+const newTime = (clickX / width) * duration;
+
+bgMusic.currentTime = newTime;
+currentLyricIndex = findCurrentLyricIndex(newTime);
+highlightLyric(currentLyricIndex);
+}
+
+// Start dragging progress
+function startDrag() {
+isDraggingProgress = true;
+}
+
+// Stop dragging progress
+function stopDrag() {
+isDraggingProgress = false;
+}
+
+// Toggle play/pause
+function togglePlay() {
+if (isPlaying) {
+bgMusic.pause();
+playBtn.innerHTML = '<i class="fas fa-play"></i>';
+} else {
+bgMusic.play().catch(error => {
+console.error("Error playing audio:", error);
+alert("Audio playback failed. Please check your browser's autoplay settings.");
+});
+playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+
+// Show message overlay for 3 seconds
+messageOverlay.classList.add('show');
+setTimeout(() => {
+messageOverlay.classList.remove('show');
+}, 3000);
+}
+isPlaying = !isPlaying;
+}
+
+// Skip to next lyric
+function nextLyric() {
+if (currentLyricIndex < lyrics.length - 1) {
+currentLyricIndex++;
+bgMusic.currentTime = lyrics[currentLyricIndex].time;
+highlightLyric(currentLyricIndex);
+}
+}
+
+// Skip to previous lyric
+function prevLyric() {
+if (currentLyricIndex > 0) {
+currentLyricIndex--;
+bgMusic.currentTime = lyrics[currentLyricIndex].time;
+highlightLyric(currentLyricIndex);
+}
+}
+
+// Create floating particles
+const particlesContainer = document.getElementById('particles');
+
+function createParticle() {
+const particle = document.createElement('div');
+particle.classList.add('particle');
+particle.style.left = Math.random() * 100 + 'vw';
+particle.style.top = '100vh';
+particle.style.animationDuration = Math.random() * 10 + 10 + 's';
+particle.style.opacity = Math.random() * 0.5 + 0.3;
+particle.style.width = Math.random() * 6 + 4 + 'px';
+particle.style.height = particle.style.width;
+
+particlesContainer.appendChild(particle);
+
+setTimeout(() => {
+particle.remove();
+}, 15000);
+}
+
+// Event listeners
+playBtn.addEventListener('click', togglePlay);
+prevBtn.addEventListener('click', prevLyric);
+nextBtn.addEventListener('click', nextLyric);
+
+bgMusic.addEventListener('timeupdate', updateProgress);
+
+progressBar.addEventListener('mousedown', (e) => {
+startDrag();
+setProgress(e);
+});
+
+document.addEventListener('mousemove', (e) => {
+if (isDraggingProgress && e.buttons === 1) {
+const rect = progressBar.getBoundingClientRect();
+const clickX = e.clientX - rect.left;
+const width = rect.width;
+const duration = bgMusic.duration;
+const newTime = (clickX / width) * duration;
+
+bgMusic.currentTime = newTime;
+currentLyricIndex = findCurrentLyricIndex(newTime);
+highlightLyric(currentLyricIndex);
+}
+});
+
+document.addEventListener('mouseup', stopDrag);
+
+// When metadata is loaded
+bgMusic.addEventListener('loadedmetadata', () => {
+durationEl.textContent = formatTime(bgMusic.duration);
+});
+
+// When music ends
+bgMusic.addEventListener('ended', () => {
+isPlaying = false;
+playBtn.innerHTML = '<i class="fas fa-play"></i>';
+progress.style.width = '0%';
+currentTimeEl.textContent = '0:00';
+
+// Reset lyrics
+lyricLines.forEach(line => {
+line.classList.remove('active');
+});
+
+currentLyricIndex = 0;
+lastHighlightedIndex = -1;
+});
+
+// Create initial particles
+setInterval(createParticle, 300);
+
+// Initialize lyrics display
+highlightLyric(0);
+</script>
+</body>
+</html>
