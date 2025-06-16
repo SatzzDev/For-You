@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>For You</title>
-<meta author="SatzzDev">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<meta author="SatzzDev" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
 <style>
 * {
+overflow: hidden;
 margin: 0;
 padding: 0;
 box-sizing: border-box;
-font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+font-family: 'Inter', sans-serif;
 }
 
 :root {
+--scale: 0.9;
 --primary: #1db954;
 --secondary: #191414;
 --accent: #ffffff;
@@ -37,7 +39,8 @@ overflow-x: hidden;
 
 .container {
 width: 100%;
-max-width: 900px;
+max-width: 800px;
+max-height: 150vh;
 background: var(--secondary);
 border-radius: 20px;
 overflow: hidden;
@@ -48,7 +51,7 @@ z-index: 20;
 
 .header {
 background: linear-gradient(to right, #1a1a1a, #2a2a2a);
-padding: 25px 30px;
+padding: 20px 24px;
 display: flex;
 align-items: center;
 justify-content: space-between;
@@ -58,23 +61,23 @@ border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 .logo {
 display: flex;
 align-items: center;
-gap: 12px;
+gap: 10px;
 }
 
 .logo-icon {
-width: 40px;
-height: 40px;
+width: 36px;
+height: 36px;
 background: var(--primary);
 border-radius: 50%;
 display: flex;
 align-items: center;
 justify-content: center;
-font-size: 22px;
+font-size: 20px;
 color: white;
 }
 
 .logo-text {
-font-size: 26px;
+font-size: 22px;
 font-weight: 700;
 letter-spacing: -1px;
 }
@@ -88,76 +91,77 @@ text-align: right;
 }
 
 .song-title {
-font-size: 18px;
+font-size: 16px;
 font-weight: 600;
 color: var(--accent);
-margin-bottom: 5px;
+margin-bottom: 3px;
 }
 
 .artist {
-font-size: 14px;
+font-size: 13px;
 color: var(--text-secondary);
 }
 
 .lyrics-container {
-height: 500px;
+height: 460px;
 overflow: hidden;
 position: relative;
 background: linear-gradient(to bottom, #191414, #121212);
 display: flex;
-align-items: center; /* Center vertically */
+align-items: center;
 }
 
 .lyrics-wrapper {
 width: 100%;
-max-width: 700px;
+max-width: 420px;
 text-align: center;
-padding: 30px 20px;
+padding: 16px 12px;
 position: relative;
 z-index: 2;
-margin: 0 auto; /* Center horizontally */
-transition: transform 0.5s ease-in-out; /* Smooth vertical movement */
-transform: translateY(0); /* Initial position */
+margin: 0 auto;
+transition: transform 0.5s ease-in-out;
+transform: translateY(0);
 }
 
 .lyric-line {
-font-size: 30px;
+font-size: 24px;
 font-weight: 600;
-margin: 20px 0;
-color: var(--text-secondary);
+margin: 14px 0;
+color: rgba(179, 179, 179, 0.5);
 transition: all 0.5s ease-in-out;
-opacity: 0;
 line-height: 1.5;
-min-height: 50px;
+min-height: 44px;
+transform: scale(0.9);
 }
 
 .lyric-line.active {
 color: var(--accent);
-opacity: 1;
+transform: scale(1);
+text-shadow: 0 0 15px rgba(29, 185, 84, 0.5);
 }
 
 .controls {
-padding: 25px 30px;
+padding: 16px 20px;
+gap: 16px;
 background: var(--dark-card);
 display: flex;
 flex-direction: column;
 align-items: center;
-gap: 25px;
 border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .progress-container {
 width: 100%;
-max-width: 600px;
+max-width: 400px;
 display: flex;
 align-items: center;
-gap: 15px;
+gap: 10px;
 }
 
 .time {
-font-size: 14px;
+font-size: 12px;
 color: var(--text-secondary);
-min-width: 40px;
+min-width: 36px;
 }
 
 .progress-bar {
@@ -183,12 +187,12 @@ transition: width 0.1s linear;
 .player-controls {
 display: flex;
 align-items: center;
-gap: 30px;
+gap: 24px;
 }
 
 .control-btn {
-width: 50px;
-height: 50px;
+width: 40px;
+height: 40px;
 border-radius: 50%;
 display: flex;
 align-items: center;
@@ -203,8 +207,8 @@ transform: scale(1.1);
 }
 
 .play-btn {
-width: 70px;
-height: 70px;
+width: 55px;
+height: 55px;
 background: var(--primary);
 box-shadow: 0 0 20px rgba(29, 185, 84, 0.5);
 }
@@ -221,9 +225,9 @@ left: 50%;
 transform: translateX(-50%);
 background: rgba(25, 20, 20, 0.9);
 border: 1px solid rgba(255, 255, 255, 0.1);
-padding: 20px 30px;
-border-radius: 50px;
-font-size: 18px;
+padding: 16px 24px;
+border-radius: 40px;
+font-size: 16px;
 color: var(--accent);
 opacity: 0;
 transition: opacity 0.5s ease;
@@ -258,96 +262,39 @@ will-change: transform, opacity;
 }
 
 @keyframes particleFloat {
-0% {
-transform: translateY(0) translateX(0);
-opacity: 0;
-}
-10% {
-opacity: 1;
-}
-90% {
-opacity: 0.8;
-}
-100% {
-transform: translateY(-100vh) translateX(100px);
-opacity: 0;
-}
+0% { transform: translateY(0) translateX(0); opacity: 0; }
+10% { opacity: 1; }
+90% { opacity: 0.8; }
+100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-.lyrics-container {
-height: 400px;
-}
 
-.lyric-line {
-font-size: 24px;
-margin: 15px 0;
-}
 
-.header {
-flex-direction: column;
-gap: 15px;
-text-align: center;
-}
-
-.now-playing {
-text-align: center;
-}
-}
-
-@media (max-width: 480px) {
-.lyrics-container {
-height: 350px;
-}
-
-.lyric-line {
-font-size: 20px;
-margin: 12px 0;
-}
-
-.control-btn {
-width: 40px;
-height: 40px;
-}
-
-.play-btn {
-width: 60px;
-height: 60px;
-}
-
-.controls {
-padding: 20px;
-}
-
-.player-controls {
-gap: 20px;
+@media (min-width: 1024px) {
+body {
+transform: scale(var(--scale));
+transform-origin: top center;
 }
 }
 </style>
 </head>
 <body>
 <div class="particles" id="particles"></div>
-
 <div class="container">
 <div class="header">
 <div class="logo">
-<div class="logo-icon">
-<i class="fas fa-heart"></i>
-</div>
+<div class="logo-icon"><i class="fas fa-heart"></i></div>
 <div class="logo-text">Feel<span>ings</span></div>
 </div>
 <div class="now-playing">
 <div class="song-title">Angel Baby</div>
-<div class="artist">Synced with your heartbeat</div>
+<div class="artist">Created By SatzzDev</div>
 </div>
 </div>
 
 <div class="lyrics-container">
 <div class="lyrics-wrapper" id="lyricsWrapper"></div>
-<div class="message-overlay" id="messageOverlay">
-Every word is true, and comes straight from my heart
-</div>
+<div class="message-overlay" id="messageOverlay">Every word is true, and comes straight from my heart</div>
 </div>
 
 <div class="controls">
@@ -358,24 +305,18 @@ Every word is true, and comes straight from my heart
 </div>
 <div class="time" id="duration">0:00</div>
 </div>
-
 <div class="player-controls">
-<div class="control-btn" id="prevBtn">
-<i class="fas fa-step-backward"></i>
-</div>
-<div class="control-btn play-btn" id="playBtn">
-<i class="fas fa-play"></i>
-</div>
-<div class="control-btn" id="nextBtn">
-<i class="fas fa-step-forward"></i>
+<div class="control-btn" id="prevBtn"><i class="fas fa-step-backward"></i></div>
+<div class="control-btn play-btn" id="playBtn"><i class="fas fa-play"></i></div>
+<div class="control-btn" id="nextBtn"><i class="fas fa-step-forward"></i></div>
 </div>
 </div>
 </div>
-</div>
-
 <audio id="bgMusic">
-<source src="Angel baby X Angel baby (Tiktok).mp3" type="audio/mp3">
+<source src="Angel baby X Angel baby (Tiktok).mp3" type="audio/mp3" />
 </audio>
+
+
 
 <script>
 // Lyrics data with approximate timing
@@ -387,7 +328,7 @@ const lyrics = [
 { text: "I just wanna live in this moment forever", time: 14 },
 { text: "'Cause I'm afraid that living couldn't get any better", time: 20 },
 { text: "Started giving up on the word \"forever\"", time: 27 },
-{ text: "Until you gаve up heaven, so we could be together", time: 34 },
+{ text: "Until you gave up heaven, so we could be together", time: 34 },
 { text: "Angel Baby", time: 39 }
 ];
 
@@ -481,8 +422,9 @@ highlightLyric(currentLyricIndex);
 
 // Set progress bar position
 function setProgress(e) {
-const width = this.clientWidth;
-const clickX = e.offsetX;
+const rect = progressBar.getBoundingClientRect();
+const clickX = e.clientX - rect.left;
+const width = rect.width;
 const duration = bgMusic.duration;
 const newTime = (clickX / width) * duration;
 
@@ -507,7 +449,9 @@ if (isPlaying) {
 bgMusic.pause();
 playBtn.innerHTML = '<i class="fas fa-play"></i>';
 } else {
-document.body.requestFullscreen().catch((err) => {alert(`Error attempting to enable fullscreen mode: ${err.message} (${err.name})`)});
+document.body.requestFullscreen().catch((err) => {
+alert(`Error attempting to enable fullscreen mode: ${err.message} (${err.name})`);
+});
 bgMusic.play().catch(error => {
 console.error("Error playing audio:", error);
 alert("Audio playback failed. Please check your browser's autoplay settings.");
@@ -545,20 +489,20 @@ highlightLyric(currentLyricIndex);
 const particlesContainer = document.getElementById('particles');
 
 function createParticle() {
-const particle = document.createElement('div');
-particle.classList.add('particle');
-particle.style.left = Math.random() * 100 + 'vw';
-particle.style.top = '100vh';
-particle.style.animationDuration = Math.random() * 10 + 10 + 's';
-particle.style.opacity = Math.random() * 0.5 + 0.3;
-particle.style.width = Math.random() * 6 + 4 + 'px';
-particle.style.height = particle.style.width;
+const particle = document.createElement('div')
+particle.classList.add('particle')
 
-particlesContainer.appendChild(particle);
+particle.style.left = Math.random() * 100 + 'vw'
+particle.style.top = '100vh'
+particle.style.width = particle.style.height = (Math.random() * 6 + 4) + 'px'
+particle.style.animationDuration = (Math.random() * 5 + 5) + 's'
+particle.style.opacity = Math.random() * 0.6 + 0.3
+
+particlesContainer.appendChild(particle)
 
 setTimeout(() => {
-particle.remove();
-}, 15000);
+particle.remove()
+}, 10000)
 }
 
 // Event listeners
@@ -573,17 +517,13 @@ startDrag();
 setProgress(e);
 });
 
+progressBar.addEventListener('click', (e) => {
+setProgress(e);
+});
+
 document.addEventListener('mousemove', (e) => {
 if (isDraggingProgress && e.buttons === 1) {
-const rect = progressBar.getBoundingClientRect();
-const clickX = e.clientX - rect.left;
-const width = rect.width;
-const duration = bgMusic.duration;
-const newTime = (clickX / width) * duration;
-
-bgMusic.currentTime = newTime;
-currentLyricIndex = findCurrentLyricIndex(newTime);
-highlightLyric(currentLyricIndex);
+setProgress(e);
 }
 });
 
@@ -610,8 +550,9 @@ currentLyricIndex = 0;
 lastHighlightedIndex = -1;
 });
 
-// Create initial particles
-setInterval(createParticle, 300);
+  setInterval(() => {
+    for (let i = 0; i < 5; i++) createParticle()
+  }, 300)
 
 // Initialize lyrics display
 highlightLyric(0);
